@@ -3,18 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MovieStore.Core.ServiceInterfaces;
+using MovieStore.Infrastructure.Services;
 using MovieStore.MVC.Models;
 
 namespace MovieStore.MVC.Controllers
 {
     public class MoviesController : Controller
     {
+        // IOC, ASP.NET Core has build-in IOC/DI <INTERVIEW QUESTION>
+        // In .NET Framework we need to reply on third-party IOC to do Dependency Injection, Ninject
+        private readonly IMovieService _movieService;
 
+        public MoviesController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
         //GET localhost/Movies
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            // call our Movie Service, method, highest grossing method
+            //var movies = await _movieService.GetTop25HighestRevenueMovies();
+            //var movies = await _movieService.GetTop25RatedMovies();
+            //var movies = await _movieService.GetMovieById(2);
+            var movies = await _movieService.GetMoviesCount("Iron Man");
+            return View(movies);
+
+
+
+
+
+            // public async Task<IActionResult> Index()
+            //t1
+            // var movieService = new MovieService();
+            // 5 seconds var movies = await movieService.GetAllMovie(); i/0 bound operation
+            // return a Task for you
+
+            // Improving the scalability of the application, so that your application can server many concurrent requests properly
+            // async/await will prevent thread starvation scenario.
+            // recommand I/O bound operation not CPU
+            // Database calls, Http calls, over network
+            // Task<Movie>, Task<int>
+            // in your C# or any library whenever you see a method with Async in the method name, that means you can await that method
+            // EF, two kind of methods, normal sync method, async method...
+
 
             // go to database and get some list of movies and give it to the view
             // 
@@ -35,7 +69,7 @@ namespace MovieStore.MVC.Controllers
             //ViewData["myname"] = "John Doe";
             // compile time checks vs run-time checks
 
-          
+
             // we need to pass data from Controller action method to the View
             // Usually its prefererrd to send a strongly typed Model or object to the View
 
@@ -43,7 +77,7 @@ namespace MovieStore.MVC.Controllers
             //1. Strongly-typed models (preferred way)
             //2. ViewBag --dynamic
             //3. ViewData - key/value
-            return View();
+            //return View();
         }
 
         [HttpPost]

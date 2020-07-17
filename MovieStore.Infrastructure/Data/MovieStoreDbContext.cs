@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -38,7 +39,8 @@ namespace MovieStore.Infrastructure.Data
 
         public MovieStoreDbContext(DbContextOptions<MovieStoreDbContext> options) : base(options)
         {
-
+            //var test = Genres.Where(g => g.Id == 2).ToList();
+            //var test2 = await Genres.Where(g => g.Id == 2).ToListAsync(); //async and sync
         }
         public DbSet<Genre> Genres { get; set; }
 
@@ -173,6 +175,20 @@ namespace MovieStore.Infrastructure.Data
 
             // we dont want to create Rating Column but we want C# rating property in our Entity so that we can show Movie rating in the UI
             modelBuilder.Ignore(m => m.Rating);
+
+            //public void Test()
+            //{
+            //    // regular Lists, Dicti... all collection implement IEnumerable, so Linq methods will point to 
+            //    // IEnumerable extension methods
+            //    // DbSets, since they implement IQuerable they point to IQuerable methods...
+
+            //    var ll = new List<int>();
+            //    //Func<TSource, bool> predicate
+            //    ll.Where(x => x > 3); // inmemory
+
+            //    //Expression<Func<TSource, int, bool>>
+            //    Genres.Where(g => g.Id == 2); //convert this expression to sql
+            //}
         }
     }
 }
