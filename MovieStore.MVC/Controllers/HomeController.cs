@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MovieStore.Core.ServiceInterfaces;
 using MovieStore.MVC.Models;
 
 namespace MovieStore.MVC.Controllers
@@ -20,9 +21,24 @@ namespace MovieStore.MVC.Controllers
     // Index -- Action method
     public class HomeController : Controller
     {
-        // Action method
-        public IActionResult Index()
+        private readonly IMovieService _movieService;
+
+        public HomeController(IMovieService movieService)
         {
+            _movieService = movieService;
+        }
+        // Action method
+        public async Task< IActionResult> Index()
+        {
+
+
+            // we need or Movie Card we are going to use that one in lots of places...
+            // 1. Home page -- show top revenue movies --> Movie Card
+            // 2. Genres/show Movies belonginf to that genre --> Movie Card
+            // 3. Top Rated Movies --> Top Movies as a card
+            // We have to create this Movie Card in such a way that it can be reused in lots of places
+            // Partial Views will help us in creating reusable Views across the application
+            // Partial views are views inside another view
 
             // 0 and null are not equal
             // return a instance of a class that implements that IActionResult
@@ -42,7 +58,8 @@ namespace MovieStore.MVC.Controllers
             // DC ===20, multiple stops... Phili, NJ, NY -- Boston
             // request --> M1-- some process--> next M2 --> next M3..M4..M5 --> Response
 
-            return View();
+            var movies = await _movieService.GetTop25HighestRevenueMovies();
+            return View(movies);
         }
         
         public interface XYX
