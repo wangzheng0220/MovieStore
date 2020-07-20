@@ -45,6 +45,21 @@ namespace MovieStore.Infrastructure.Services
             return await _movieRepository.GetCountAsync(gmc=>gmc.Title==title);
             //<Func<T, bool>> filter = null);
         }
+
+        public async Task<IEnumerable<Movie>> GetMoviesByGenre(int genreId)
+        {
+            return await _movieRepository.GetMoviesByGenre(genreId);
+        }
+
+        public async Task<decimal> GetAverageRatedMovie(int movieId)
+        {
+            return await _movieRepository.GetAverageRatedMovie(movieId);
+        }
+
+        public async Task<Movie> GetByIdAsync(int movieId)
+        {
+            return await _movieRepository.GetByIdAsync(movieId);
+        }
     }
     // Dependency Injection
     //public class MovieServiceTest : IMovieService // show lose coupling, change code in configureService, AddScoped

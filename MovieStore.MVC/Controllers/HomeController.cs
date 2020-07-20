@@ -59,7 +59,7 @@ namespace MovieStore.MVC.Controllers
             // request --> M1-- some process--> next M2 --> next M3..M4..M5 --> Response
 
             var movies = await _movieService.GetTop25HighestRevenueMovies();
-            return View(movies);
+            return View(movies); //pass data from controller to view
         }
         
         public interface XYX

@@ -27,8 +27,9 @@ namespace MovieStore.MVC.Controllers
             // call our Movie Service, method, highest grossing method
             //var movies = await _movieService.GetTop25HighestRevenueMovies();
             //var movies = await _movieService.GetTop25RatedMovies();
-            //var movies = await _movieService.GetMovieById(2);
-            var movies = await _movieService.GetMoviesCount("Iron Man");
+            //var movies = await _movieService.GetMovieById(15);
+            //var movies = await _movieService.GetMoviesCount("Iron Man");
+            var movies = await _movieService.GetAverageRatedMovie(15);
             return View(movies);
 
 
@@ -80,6 +81,24 @@ namespace MovieStore.MVC.Controllers
             //return View();
         }
 
+        [HttpGet]
+        [Route("Movies/Genre/{genreId}")] //{}变量 URL 对应上 用
+        public async Task<IActionResult> Genre(int genreId)
+        {
+            var movies = await _movieService.GetMoviesByGenre(genreId);
+            return View(movies); //pass data from controller to view
+        }
+
+
+        [HttpGet]
+        [Route("Movies/Details/{movieId}")]
+        public async Task<IActionResult> Details(int movieId)
+        {
+            var movie = await _movieService.GetByIdAsync(movieId);
+            //decimal rating = await _movieService.GetAverageRatedMovie(movieId);
+            return View(movie);
+        }
+
         [HttpPost]
         public IActionResult Create(string title, decimal budget)
         {
@@ -101,5 +120,6 @@ namespace MovieStore.MVC.Controllers
             // we need to have this method so that we can show the empty page for user to enter Movie information that needs to be created
             return View();
         }
+        
     }
 }

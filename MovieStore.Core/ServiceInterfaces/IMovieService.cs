@@ -16,5 +16,11 @@ namespace MovieStore.Core.ServiceInterfaces
         Task<Movie> UpdateMovie(Movie movie);
 
         Task<int> GetMoviesCount(string title = "");
+
+        Task<IEnumerable<Movie>> GetMoviesByGenre(int GenreId);
+
+        Task<decimal> GetAverageRatedMovie(int movieId);
+
+        Task<Movie> GetByIdAsync(int movieId);
     }
 }

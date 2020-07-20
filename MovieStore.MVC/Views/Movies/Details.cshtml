@@ -1,0 +1,67 @@
+﻿@model MovieStore.Core.Entities.Movie
+
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+
+                @*<partial name="_MovieCard" model="movie" />*@
+                @*@await Html.PartialAsync("_MovieCard", Model)*@
+                <div class="col-sm">
+                    <a>
+                        <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+                    </a>
+                    <br/>
+                    MOVIE FACTS <br />
+                    Release Date<span class="badge badge-pill badge-dark">@Model.ReleaseDate</span><br />
+                    Run Time <span class="badge badge-pill badge-dark">@Model.RunTime m</span><br />
+                    Box Office <span class="badge badge-pill badge-dark">$ @Model.Revenue</span><br /> 
+                    Budget<span class="badge badge-pill badge-dark">$ @Model.Budget</span><br />
+                     
+                </div>
+
+                <div class="col-sm">
+                    @Model.Title <br/>
+                    @Model.Tagline <br/>
+                    <span class="badge badge-pill badge-dark">Run Time</span>
+                    @Model.RunTime m <br />
+                    <span class="badge badge-warning">@Model.Rating</span><br />
+                    @Model.Overview <br />
+                    CAST
+                    @foreach (var castInfo in Model.MovieCasts)
+                    {
+
+                        <p>
+                            @await Html.PartialAsync("_CastCard", castInfo.Cast) @*CastID为1的那一条infomation*@
+                            <a href="@castInfo.Cast.TmdbUrl">@castInfo.Cast.Name</a>
+
+                            @castInfo.Character @*Character Name*@
+                            @castInfo.Cast.Id
+
+                        </p>
+                    }
+                </div>
+                
+       
+            
+            </div>   
+            <div>
+                <div>
+                    
+                </div>
+                <div>
+                    @*@foreach (var castName in Model.)
+                    {
+
+                    }*@
+                </div>
+            </div>
+            
+            
+            
+                
+
+
+            
+        </div>
+        
+    </div>

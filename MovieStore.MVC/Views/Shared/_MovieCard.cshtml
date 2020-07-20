@@ -1,8 +1,10 @@
 ﻿@model MovieStore.Core.Entities.Movie
 
 <div class="col-6 cl-lg-3 col-sm-4 col-xl-2">
-    <a>
-        <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+    
+        <a href="/Movies/Details/@Model.Id"> @*make poster as clickable, direct this to controller route*@
 
-    </a>
+            <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+        </a>
+           
 </div>

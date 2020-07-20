@@ -11,6 +11,12 @@ namespace MovieStore.Core.RepositoryInterfaces
         Task<IEnumerable<Movie>> GetHighestRevenueMovies();
 
         Task<IEnumerable<Movie>> GetTop25RatedMovies();
+
+        Task<IEnumerable<Movie>> GetMoviesByGenre(int genreId);
+
+        Task<decimal> GetAverageRatedMovie(int movieId);
+
+        //public override Task<Movie> GetByIdAsync(int id);
     }
 
 
