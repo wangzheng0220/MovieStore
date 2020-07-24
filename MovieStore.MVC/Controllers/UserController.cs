@@ -97,10 +97,11 @@ namespace MovieStore.MVC.Controllers
         // http:localhost:12112/User/reviews -- HttpGet
         [Authorize]
         [HttpGet]
-        [Route("User/Reviews/{userId}")]
-        public async Task<IActionResult> Reviews (int userId)
+        [Route("User/Reviews")]
+        public async Task<IActionResult> Reviews ()
         {
-            var reviews = await _reviewRepository.GetReviewsById(userId);
+            int getUserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var reviews = await _reviewRepository.GetReviewsById(getUserId);
             return View(reviews);
         }
         // 5. Add a Favorite Movie for Loged In User

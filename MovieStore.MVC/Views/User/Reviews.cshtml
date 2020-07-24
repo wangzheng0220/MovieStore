@@ -2,17 +2,21 @@
 
     <div>
         <div class="container-fluid">
-            <div class="row">
+            <div class="col">
+
+
                 @foreach (var review in Model)
                 {
-                    <span class="badge badge-pill badge-dark">UserId</span>
-                    @review.UserId <br />
+                    @*<span class="badge badge-pill badge-dark">UserId</span>
+                    @review.UserId <br />*@
+                <div class="row">
                     <span class="badge badge-pill badge-dark">MovieId</span>
                     @review.MovieId <br />
                     <span class="badge badge-pill badge-dark">Rating</span>
                     @review.Rating <br />
                     <span class="badge badge-pill badge-dark">ReviewText</span>
                     @review.ReviewText <br />
+                </div>
                 }
             </div>
         </div>
