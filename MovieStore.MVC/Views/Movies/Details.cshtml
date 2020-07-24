@@ -1,33 +1,128 @@
-﻿@model MovieStore.Core.Entities.Movie
+﻿@model MovieStore.Core.Models.MovieWithCheck
 
     <div>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
         <div class="container-fluid">
             <div class="row">
 
                 @*<partial name="_MovieCard" model="movie" />*@
                 @*@await Html.PartialAsync("_MovieCard", Model)*@
-                <div class="col-sm">
-                    <a>
-                        <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
-                    </a>
-                    <br/>
-                    MOVIE FACTS <br />
-                    Release Date<span class="badge badge-pill badge-dark">@Model.ReleaseDate</span><br />
-                    Run Time <span class="badge badge-pill badge-dark">@Model.RunTime m</span><br />
-                    Box Office <span class="badge badge-pill badge-dark">$ @Model.Revenue</span><br /> 
-                    Budget<span class="badge badge-pill badge-dark">$ @Model.Budget</span><br />
-                     
-                </div>
 
-                <div class="col-sm">
-                    @Model.Title <br/>
-                    @Model.Tagline <br/>
+                <div class="col">
+                    <a>
+                        <img src="@Model.Movie.PosterUrl" class="img-fluid" alt="@Model.Movie.Title" />
+                    </a>
+                </div>
+                <div class="col">
+                    @Model.Movie.Title <br />
+                    @Model.Movie.Tagline <br />
                     <span class="badge badge-pill badge-dark">Run Time</span>
-                    @Model.RunTime m <br />
-                    <span class="badge badge-warning">@Model.Rating</span><br />
-                    @Model.Overview <br />
+                    @Model.Movie.RunTime m <br />
+                    <span class="badge badge-warning">@Model.Movie.Rating</span><br />
+                    @Model.Movie.Overview <br />
+                </div>
+                <div class="col">
+                    <a asp-controller="User" asp-action="Review"class="btn btn-secondary" data-toggle="modal" data-target=".bootstrapmodal">
+                        REVIEW
+                    </a>
+                    <div class="modal fade bootstrapmodal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="modal-title">Enter your review</div>
+                                    <button data-dismiss="modal" class="close"><span>&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    @*@Html.TextBoxFor(model => model.Movie.Reviews, new { @class = "form-control", @placeholder = "Enter your reviews..." })
+                        @Html.TextBoxFor(model => model.Movie.Rating, new { @class = "form-control", @placeholder = "Give a rating..." })*@
+                                    <form method="post" asp-controller="User" asp-action="Review">
+                                        @*<input asp-for="@Model.Movie.Reviews" />*@
+                                        @*@Html.TextArea("reviewArea", "Enter your review...", new { @class = "form-control" })
+        @Html.TextArea("ratingArea", "Enter your rating...", new { @class = "form-control" })*@
+                                        <input type="text" name="ReviewText" value="Enter your review..." />
+                                        <input type="number" max="10" name="rating" />
+                                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                                        <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <span class="badge badge-pill badge-dark">TRAILER</span><br />
+
+                    @*<a href="#"><span class="badge badge-pill badge-danger">Like</span><br /></a>
+        <span class="badge badge-pill badge-danger">Liked</span><br />*@
+                    @if (Model.Favorited)
+                    {
+                        <form method="post" asp-controller="User" asp-action="UnFavorite">
+                            <button type="submit" value="Favorited"><i class="fas fa-heart"></i></button>
+                            <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+                        </form>
+
+                    }
+                    else
+                    {
+                <form method="post" asp-controller="User" asp-action="Favorite">
+                    @*<input type="submit" value="Add to Favorite" />*@
+                    <button type="submit" value="Favorite"><i class="far fa-heart"></i></button>
+                    <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+                </form>
+                    }
+                    @*<form method="post" asp-controller=" User" asp-action="Purchase">
+            <a href="/User/Purchase">
+                BUY:$@Model.Price
+            </a>
+        </form>*@
+                    @if (Model.Purchased)
+                    {
+                        <span class="badge badge-pill badge-dark">Watch</span>
+                    }
+                    else
+                    {
+                        <form method="post" asp-controller="User" asp-action="Purchase" class="badge badge-pill badge-dark">
+                            <input type="submit" value="Buy:@Model.Movie.Price" />
+                            <input type="hidden" value="@Model.Movie.Id" name="MovieId" />
+                        </form>
+                    }
+
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <br />
+                    MOVIE FACTS <br />
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                        <path fill-rule="evenodd" d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                    </svg>
+                    Release Date<span class="badge badge-pill badge-dark">@Model.Movie.ReleaseDate</span><br />
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-hourglass-split" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0c0 .701.478 1.236 1.011 1.492A3.5 3.5 0 0 1 11.5 13s-.866-1.299-3-1.48V8.35z" />
+                    </svg>
+                    Run Time <span class="badge badge-pill badge-dark">@Model.Movie.RunTime m</span><br />
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M15 4H1v8h14V4zM1 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H1z" />
+                        <path d="M13 4a2 2 0 0 0 2 2V4h-2zM3 4a2 2 0 0 1-2 2V4h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 12a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                    </svg>
+                    Box Office <span class="badge badge-pill badge-dark">$ @Model.Movie.Revenue</span><br />
+                    Budget<span class="badge badge-pill badge-dark">$ @Model.Movie.Budget</span><br />
+
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.646 11.354a.5.5 0 0 1 0-.708L14.293 8l-2.647-2.646a.5.5 0 0 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z" />
+                        <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
+                        <path fill-rule="evenodd" d="M2 13.5A1.5 1.5 0 0 1 .5 12V4A1.5 1.5 0 0 1 2 2.5h7A1.5 1.5 0 0 1 10.5 4v1.5a.5.5 0 0 1-1 0V4a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-1.5a.5.5 0 0 1 1 0V12A1.5 1.5 0 0 1 9 13.5H2z" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <br />
                     CAST
-                    @foreach (var castInfo in Model.MovieCasts)
+                    @foreach (var castInfo in Model.Movie.MovieCasts)
                     {
 
                         <p>
@@ -40,28 +135,20 @@
                         </p>
                     }
                 </div>
-                
-       
-            
-            </div>   
-            <div>
-                <div>
-                    
-                </div>
-                <div>
-                    @*@foreach (var castName in Model.)
-                    {
 
-                    }*@
+                <div class="col">
+                    <br />
                 </div>
             </div>
-            
-            
-            
-                
 
 
-            
+
+
+
+
+
+
+
         </div>
-        
+
     </div>

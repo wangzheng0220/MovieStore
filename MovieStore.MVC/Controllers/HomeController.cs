@@ -28,7 +28,7 @@ namespace MovieStore.MVC.Controllers
             _movieService = movieService;
         }
         // Action method
-        public async Task< IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
 
 
@@ -61,27 +61,15 @@ namespace MovieStore.MVC.Controllers
             var movies = await _movieService.GetTop25HighestRevenueMovies();
             return View(movies); //pass data from controller to view
         }
-        
-        public interface XYX
-        {
-            int Add(int x, int y);
 
-        }
+        //public IActionResult Error()
+        //{
+        //    return View(new ErrorViewModel
+        //    {
+        //        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        //    });
+        //}
 
-        public class MyClass : XYX
-        {
-            public int Add(int x, int y)
-            {
-                return x + y;
-            }
-        }
 
-        public class MyClass2 : XYX
-        {
-            public int Add(int x, int y)
-            {
-                return x + y;
-            }
-        }
     }
 }

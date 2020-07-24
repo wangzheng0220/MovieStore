@@ -1,0 +1,14 @@
+﻿@model IEnumerable<MovieStore.Core.Entities.Purchase>
+
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                @foreach (var purchase in Model)
+                {
+                    @*<partial name="_MovieCard" model="movie" />*@
+                    @await Html.PartialAsync("_MovieCard", purchase.Movie)
+                    
+                }
+            </div>
+        </div>
+    </div>

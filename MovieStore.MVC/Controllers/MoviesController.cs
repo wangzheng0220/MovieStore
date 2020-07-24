@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MovieStore.Core.Models;
 using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Services;
 using MovieStore.MVC.Models;
-
+using MovieStore.MVC.Filters;
 namespace MovieStore.MVC.Controllers
 {
     public class MoviesController : Controller
@@ -14,10 +16,12 @@ namespace MovieStore.MVC.Controllers
         // IOC, ASP.NET Core has build-in IOC/DI <INTERVIEW QUESTION>
         // In .NET Framework we need to reply on third-party IOC to do Dependency Injection, Ninject
         private readonly IMovieService _movieService;
+        private readonly IUserService _userService;
 
-        public MoviesController(IMovieService movieService)
+        public MoviesController(IMovieService movieService, IUserService userService)
         {
             _movieService = movieService;
+            _userService = userService;
         }
         //GET localhost/Movies
 
@@ -90,13 +94,35 @@ namespace MovieStore.MVC.Controllers
         }
 
 
+        [MovieStoreFilter]
         [HttpGet]
         [Route("Movies/Details/{movieId}")]
         public async Task<IActionResult> Details(int movieId)
         {
-            var movie = await _movieService.GetByIdAsync(movieId);
-            //decimal rating = await _movieService.GetAverageRatedMovie(movieId);
-            return View(movie);
+            //throw new Exception("some  exception");
+            var movie = await _movieService.GetByIdAsync(movieId); //get single movie entity info by movieId
+            var userClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+            bool purchased = false;
+            bool favorited = false;
+            if ( userClaim != null &&  !string.IsNullOrWhiteSpace(userClaim.Value))
+            {
+                 purchased = await _userService.CheckIfPurchasedByUserId( Int32.Parse(userClaim.Value), movieId);
+                favorited = await _userService.CheckIfUserFavoriteByUserId(Int32.Parse(userClaim.Value), movieId);
+            }
+
+            var checkMovie = new MovieWithCheck
+            {
+                Movie = movie,
+                Purchased = purchased,
+                Favorited = favorited
+            };
+
+            ////var purchasedMovie = await _userService.GetPurchasedMovieIdByUserId()
+            ////decimal rating = await _movieService.GetAverageRatedMovie(movieId);
+
+            return View(checkMovie);
+            
         }
 
         [HttpPost]

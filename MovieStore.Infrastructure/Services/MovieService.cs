@@ -11,14 +11,22 @@ namespace MovieStore.Infrastructure.Services
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
+        
+
         // Constructor Injection, inject MovieRepository class instance
-        public MovieService(IMovieRepository movieRepository)
+        public MovieService(IMovieRepository movieRepository, IUserRepository userRepository)
         {
             _movieRepository = movieRepository;
+            
         }
         public async Task<IEnumerable<Movie>> GetTop25HighestRevenueMovies()
         {
-            return await _movieRepository.GetHighestRevenueMovies();
+            //int x = 0;
+            //int y = 2;
+            //int z = y / x;
+
+            var movies =  await _movieRepository.GetHighestRevenueMovies();
+            return movies;
         }
 
         public async Task<IEnumerable<Movie>> GetTop25RatedMovies()

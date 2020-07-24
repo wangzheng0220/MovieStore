@@ -14,6 +14,9 @@ using MovieStore.Core.RepositoryInterfaces;
 using MovieStore.Core.ServiceInterfaces;
 using MovieStore.Infrastructure.Services;
 using MovieStore.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.CodeAnalysis.Options;
+using MovieStore.MVC.Helpers;
 
 namespace MovieStore.MVC
 {
@@ -34,11 +37,30 @@ namespace MovieStore.MVC
             services.AddDbContext<MovieStoreDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieStoreDbConnection")));
 
+            services.AddMemoryCache();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie
+                (
+                    options =>
+                    {
+                        options.Cookie.Name = "MovieStoreAuthCookie";
+                        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                        options.LoginPath = "/Account/Login";
+                    }
+                );
+
             // DI in ASP.NET Core has 3 types of Lifetimes, Scoped, Singleton, Transient
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICryptoService, CryptoService>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IFavoriteRepository, FavoriteRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +68,8 @@ namespace MovieStore.MVC
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                 app.UseDeveloperExceptionPage();
+                //app.UseMovieStoreExceptionMiddleware();
             }
             else
             {
@@ -56,6 +79,7 @@ namespace MovieStore.MVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
