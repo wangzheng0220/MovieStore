@@ -10,6 +10,6 @@ namespace MovieStore.Core.RepositoryInterfaces
     {
         Task<User> GetUserByEmail(string email);
 
-        Task<IEnumerable<int>> GetPurchasedMovieIdByUserId(int userId);
+        //Task<IEnumerable<int>> GetPurchasedMovieIdByUserId(int userId);
     }
 }

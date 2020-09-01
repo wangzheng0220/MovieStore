@@ -30,6 +30,7 @@ namespace MovieStore.MVC.Controllers
         // BUY Button in the Movie Details Page will call the above method
         // if user already bought that movie, then replace Buy button with Watch Movie button
 
+        //7/23
         // Filters in ASP.NET [Attributes]
         // Some piece of code that runs either before an controller or action method executes or when some event happens
         // that run before or after specific stages in the Http Pipeline

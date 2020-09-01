@@ -14,7 +14,7 @@ namespace MovieStore.Infrastructure.Services
         
 
         // Constructor Injection, inject MovieRepository class instance
-        public MovieService(IMovieRepository movieRepository, IUserRepository userRepository)
+        public MovieService(IMovieRepository movieRepository)
         {
             _movieRepository = movieRepository;
             

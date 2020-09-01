@@ -68,8 +68,8 @@ namespace MovieStore.MVC
         {
             if (env.IsDevelopment())
             {
-                 app.UseDeveloperExceptionPage();
-                //app.UseMovieStoreExceptionMiddleware();
+                 //app.UseDeveloperExceptionPage();
+                app.UseMovieStoreExceptionMiddleware();
             }
             else
             {
@@ -85,7 +85,8 @@ namespace MovieStore.MVC
             app.UseEndpoints(endpoints =>
             {
                 // Routing -- Pattern matching technique --check if is match
-
+               // 1. Tarditional way of routing
+               // 2. Attribute based Routing
                 // http:localhost:2222/Movies/index/3
                 endpoints.MapControllerRoute(
                     name: "default",

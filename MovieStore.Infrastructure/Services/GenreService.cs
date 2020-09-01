@@ -14,7 +14,7 @@ namespace MovieStore.Infrastructure.Services
         // In our application there might be some data that we get from database that wont change often??
         // Genres, in our application they dont change at all much
         // we display genres in our navigation header, GenreService will call GenreRepository, that will call Genre Table  --> databse call
-        // we an use Im memoery caching to cache the list of genres for the first time...
+        // we an use I memoery caching to cache the list of genres for the first time...
         // next time when you try to get genres what you do is check if the cache has Genres lists, 
         // if yes then take that from cache if not go to databse and put them in cache
         

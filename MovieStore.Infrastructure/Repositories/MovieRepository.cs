@@ -71,7 +71,7 @@ namespace MovieStore.Infrastructure.Repositories
 
         public override async Task<Movie> GetByIdAsync(int id)
         {
-            var movie = await _dbContext.Movies.Include(m => m.MovieCasts).ThenInclude(c => c.Cast)
+            var movie = await _dbContext.Movies.Include(mg=>mg.MovieGenres).ThenInclude(g => g.Genre).Include(m => m.MovieCasts).ThenInclude(c => c.Cast)
                 .FirstOrDefaultAsync(m => m.Id == id);
             movie.Rating = await GetAverageRatedMovie(id);
             return movie;

@@ -25,20 +25,21 @@ namespace MovieStore.Infrastructure.Repositories
         public async override Task<User> GetByIdAsync(int id)
         {
             return await _dbContext.Users.Include(u => u.Purchases).ThenInclude(m=>m.Movie).ThenInclude(f=>f.Favorites).Where(u => u.Id == id).FirstOrDefaultAsync();
-                //userId 
+            //return await _dbContext.Users.Include(u => u.Purchases).Include(u => u.Favorites).ThenInclude(m => m.Movie).Where(u => u.Id == id).FirstOrDefaultAsync();
+            //userId 
         }
 
-        public async Task<IEnumerable<int>> GetPurchasedMovieIdByUserId(int userId)
-        {
-            var PurchasedMovieId = await (from u in _dbContext.Users
-                                          join p in _dbContext.Purchases
-                                          on u.Id equals p.UserId
-                                          where p.UserId == userId
-                                          select p.MovieId).ToListAsync();
-            return PurchasedMovieId;
+        //public async Task<IEnumerable<int>> GetPurchasedMovieIdByUserId(int userId)
+        //{
+        //    var PurchasedMovieId = await (from u in _dbContext.Users
+        //                                  join p in _dbContext.Purchases
+        //                                  on u.Id equals p.UserId
+        //                                  where p.UserId == userId
+        //                                  select p.MovieId).ToListAsync();
+        //    return PurchasedMovieId;
             //select p.MovieId from[User] as u inner join Purchase as p on u.Id = p.Id
             //where p.UserId = u.Id
             //group by p.MovieId
-        }
+        
     }
 }

@@ -17,9 +17,11 @@ namespace MovieStore.Infrastructure.Repositories
 
         }
 
-        public async override Task<Favorite> GetByIdAsync(int id)
-        {
-            return await _dbContext.Favorites.Include(f => f.User).Where(f => f.UserId == id).FirstOrDefaultAsync();
-        }
+        //public async Task<Favorite> GetFavoritesById(int userId)
+        //{
+        //    //return await _dbContext.Favorites.Include(f => f.User).Where(f => f.UserId == userId).ToListAsync();
+        //    var reviews = await _dbContext.Favorites.Include(r => r.User).Where(r => r.UserId == userId).ToListAsync();
+        //    return reviews;
+        //}
     }
 }

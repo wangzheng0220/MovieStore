@@ -101,7 +101,7 @@ namespace MovieStore.Infrastructure.Services
                 var response = new UserLoginResponseModel
                 {
                     Id = user.Id,
-                    FirstName = user.FirstName,
+                    FirstName = user.FirstName, 
                     LastName = user.LastName,
                     DateOfBirth = user.DateOfBirth,
                     Email = user.Email
@@ -114,7 +114,7 @@ namespace MovieStore.Infrastructure.Services
         {
             var movie = await _movieService.GetMovieById(userPurchaseRequestModel.MovieId);
             var purchase = new Purchase
-            {
+            {//model binding, bind user input with model properties input
                 UserId = userPurchaseRequestModel.UserId,
                 PurchaseNumber = userPurchaseRequestModel.PurchaseNumber.Value,
                 TotalPrice = movie.Price.Value,
@@ -156,12 +156,12 @@ namespace MovieStore.Infrastructure.Services
             await _favoriteRepository.DeleteAsync(unFavorite.FirstOrDefault());
              
         }
-        public async Task<IEnumerable<int>> GetPurchasedMovieIdByUserId(int userId)
-        {
-            return await _userRepository.GetPurchasedMovieIdByUserId(userId);
-        }
+        // public async Task<IEnumerable<int>> GetPurchasedMovieIdByUserId(int userId)
+        //{
+        //    return await _userRepository.GetPurchasedMovieIdByUserId(userId);
+        //}
 
-        
+    
 
        public async Task<bool> CheckIfPurchasedByUserId(int userId, int movieId)
         {

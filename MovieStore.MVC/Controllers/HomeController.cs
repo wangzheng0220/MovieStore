@@ -62,13 +62,13 @@ namespace MovieStore.MVC.Controllers
             return View(movies); //pass data from controller to view
         }
 
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel
-        //    {
-        //        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-        //    });
-        //}
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            });
+        }
 
 
     }
